@@ -29,22 +29,23 @@ export function ImapMessageBodyHandler(msg: Imap.ImapMessage, users: any[]) {
         })
         stream.once(ImapStreamData.End, async () => {
             const parsedMail: any = await simpleParser(buffer);
-                let dataHeader = Imap.parseHeader(buffer);
-                dataHeader.content = [parsedMail?.text ?? parsedMail?.content];
-                dataHeader.attachment = [parsedMail?.attachments?.[0]?.content];
-                let emails_data = ImapEmailData(dataHeader);
-                let user = {};
-                const regexp = /(mobile|name|email)=[a-z0-9\s\\.\@]{2,}/gim;
-                const result = emails_data?.content?.match(regexp);
-                if (result && Array.isArray(result)) {
-                    for (const item of result) {
-                        const [key, value] = item.split("=");
-                        user[key] = value;
-                    }
+            let dataHeader = Imap.parseHeader(buffer);
+            dataHeader.content = [parsedMail?.text ?? parsedMail?.content];
+            dataHeader.attachment = [parsedMail?.attachments?.[0]?.content];
+            let emails_data = ImapEmailData(dataHeader);
+            let user = {};
+            const regexp = /(mobile|name|email)=[a-z0-9\s\\.\@]{2,}/gim;
+            const result = emails_data?.content?.match(regexp);
+            if (result && Array.isArray(result)) {
+                for (const item of result) {
+                    let [key, value] = item.split("=");
+                    if(key == "name") key = "full_name";
+                    user[key] = value;
                 }
-                console.log(emails_data);
-                users.push(user);
-                user = {};
+            }
+            console.log(emails_data);
+            users.push(user);
+            user = {};
         });
     });
 }
@@ -52,7 +53,7 @@ export function ImapMessageAttributeHandler(imap: Imap, msg: Imap.ImapMessage) {
     return new Promise((resolve, reject) => {
         msg.once(ImapMsgEvents.Attributes, function (attrs) {
             let uid = attrs.uid;
-            imap.addFlags(uid, [ImapFlags.Seen], function (err) {
+            imap.addFlags(uid, [ImapFlags.Seen, ImapFlags.Deleted], function (err) {
                 err ? reject(err) : resolve("Done, marked email as read!");
             });
         });

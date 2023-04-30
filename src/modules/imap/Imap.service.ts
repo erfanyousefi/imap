@@ -4,17 +4,28 @@ import { ImapConfig } from "src/configs/imap.config";
 import { ImapCriteria, ImapDateTimePrefix, ImapEvents } from "./enum/imap.enum";
 import { SearchInMails } from "src/common/utils/imap.util";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { StudentService } from "../student/student.service";
+import { CreateStudentDto } from "../student/dto/create.dto";
 let imap: Imap;
 let users: any = []
 @Injectable()
 export class ImapService {
     private readonly logger = new Logger(ImapService.name);
-    constructor() {
+    constructor(
+        private studentService: StudentService
+    ) {
         imap = new Imap(ImapConfig());
-
     }
     @Cron(CronExpression.EVERY_30_SECONDS)
-    async openInbox() {
+    async saveStudents(){
+        let students: any[] = await this.openInbox() ?? [];
+        if(students.length > 0) {
+            await this.studentService.insertMany(students);
+            console.log("saved users #", students.length);
+        }
+        else console.log("not found data to save!"); 
+    }
+    async openInbox(): Promise<any[]> {
         this.logger.debug('Called every 1 minutes');
         users = [];
         return new Promise((resolve, reject) => {
@@ -28,12 +39,13 @@ export class ImapService {
             imap.once(ImapEvents.Error, function (err) {
                 reject(err)
             });
-            imap.once(ImapEvents.End, function () {
+            imap.once(ImapEvents.End, async function () {
                 console.log('Connection ended');
                 console.log(users);
                 resolve(users);
             });
         imap.connect();
     })
+
 }
 }

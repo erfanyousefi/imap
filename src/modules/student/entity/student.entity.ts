@@ -1,5 +1,5 @@
 import { hashSync } from "bcrypt";
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "student"})
 export class StudentEntity {
@@ -7,14 +7,16 @@ export class StudentEntity {
     id: string;
     @Column()
     full_name: string;
-    @Column()
+    @Column({nullable: true})
     age: number;
-    @Column()
+    @Column({unique: true})
+    @Index()
     mobile: string;
-    @Column()
+    @Column({unique: true})
+    @Index()
     email: string;
-    @Column()
+    @Column({ nullable: true})
     educations: string;
-    @Column('date')
+    @Column('date', {nullable: true})
     birthday: Date;
 }
