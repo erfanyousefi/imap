@@ -34,7 +34,7 @@ export function ImapMessageBodyHandler(msg: Imap.ImapMessage, users: any[]) {
             dataHeader.attachment = [parsedMail?.attachments?.[0]?.content];
             let emails_data = ImapEmailData(dataHeader);
             let user = {};
-            const regexp = /(mobile|name|email)=[a-z0-9\s\\.\@]{2,}/gim;
+            const regexp = /(mobile|name|email)=[a-z0-9\s\\.\@_]{2,}/gim;
             const result = emails_data?.content?.match(regexp);
             if (result && Array.isArray(result)) {
                 for (const item of result) {
@@ -43,7 +43,7 @@ export function ImapMessageBodyHandler(msg: Imap.ImapMessage, users: any[]) {
                     user[key] = value;
                 }
             }
-            console.log(emails_data);
+            console.log(user);
             users.push(user);
             user = {};
         });
@@ -68,7 +68,6 @@ export function SearchInMails(imap: Imap, criteria: ImapCriteria | ImapCriteria[
         fetchMail.on("message", async (msg: Imap.ImapMessage, seqno: number) => {
             ImapMessageBodyHandler(msg, users)
             const result = await ImapMessageAttributeHandler(imap, msg).catch(err => console.log(err.message));
-            console.log(result);
             msg.once(ImapMsgEvents.End, function () {
                 console.log(`(#${seqno}) Finished`);
             });

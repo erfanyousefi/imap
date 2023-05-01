@@ -14,5 +14,14 @@ declare namespace NodeJS {
         IMAP_HOST: string
         IMAP_PORT: number
         IMAP_TLS: boolean
+
+        //nodemailer
+        MAILER_HOST: string,
+        MAILER_PORT: number,
+        MAILER_SECURE: boolean,
+        MAILER_TYPE: string,
+        MAILER_USER: string,
+        MAILER_PASSWORD: string
+        MAILER_FROM: string,
     }
 }

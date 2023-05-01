@@ -19,10 +19,13 @@ export class ImapService {
     async saveStudents(){
         let students: any[] = await this.openInbox() ?? [];
         if(students.length > 0) {
-            await this.studentService.insertMany(students);
+            const result = await this.studentService.insertMany(students);
             console.log("saved users #", students.length);
+            return true
+        } else {
+            console.log("not found data to save!"); 
+            return false
         }
-        else console.log("not found data to save!"); 
     }
     async openInbox(): Promise<any[]> {
         this.logger.debug('Called every 1 minutes');

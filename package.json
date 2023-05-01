@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^9.4.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.0.3",
@@ -42,6 +43,7 @@
     "typeorm": "^0.3.15"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.4.0",
@@ -86,6 +88,8 @@
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
     },
-    "modulePaths": [ "<rootDir>" ]
+    "modulePaths": [
+      "<rootDir>"
+    ]
   }
 }
