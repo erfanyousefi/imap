@@ -12,6 +12,7 @@ export function TypeORMConfig(): TypeOrmModuleOptions{
         host: DB_HOST,
         database: DB_NAME,
         synchronize: true,
-        entities: ['dist/**/**/**/*.entity{.ts,.js}', 'dist/**/**/*.entity{.ts,.js}']
+        entities: ['dist/**/**/**/*.entity{.ts,.js}', 'dist/**/**/*.entity{.ts,.js}'],
+        logging: true
     }
 }

@@ -5,7 +5,6 @@ import { ImapCriteria, ImapDateTimePrefix, ImapEvents } from "./enum/imap.enum";
 import { SearchInMails } from "src/common/utils/imap.util";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { StudentService } from "../student/student.service";
-import { CreateStudentDto } from "../student/dto/create.dto";
 let imap: Imap;
 let users: any = []
 @Injectable()

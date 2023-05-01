@@ -8,7 +8,7 @@ export class StudentEntity {
     @Column()
     full_name: string;
     @Column({nullable: true})
-    age: number;
+    age?: number;
     @Column({unique: true})
     @Index()
     mobile: string;
@@ -16,7 +16,7 @@ export class StudentEntity {
     @Index()
     email: string;
     @Column({ nullable: true})
-    educations: string;
+    educations?: string;
     @Column('date', {nullable: true})
-    birthday: Date;
+    birthday?: Date;
 }

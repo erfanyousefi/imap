@@ -5,7 +5,7 @@ import { ValidationMessage } from "src/common/enums/message.enum";
 export class CreateStudentDto {
     @Length(3, 100)
     @ApiPropertyOptional()
-    name: string;
+    full_name: string;
     @ApiPropertyOptional()
     @IsMobilePhone(undefined, {}, {message: ValidationMessage.InvalidMobile})
     mobile: string;

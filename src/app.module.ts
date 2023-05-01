@@ -16,7 +16,7 @@ import { StudentModule } from './modules/student/student.module';
       isGlobal: true,
       envFilePath: join(process.cwd(), `.env`),
     }),
-    TypeOrmModule.forRoot(TypeORMConfig()),
+    TypeOrmModule.forRootAsync({useFactory: () => TypeORMConfig()}),
     ScheduleModule.forRoot(),
     ImapModule,
     UserModule,
