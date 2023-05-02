@@ -5,6 +5,7 @@ import { ImapCriteria, ImapDateTimePrefix, ImapEvents } from "./enum/imap.enum";
 import { SearchInMails } from "src/common/utils/imap.util";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { StudentService } from "../student/student.service";
+import { LoggerMethod } from "src/modules/logger/logger.decorator";
 let imap: Imap;
 let users: any = []
 @Injectable()
@@ -27,6 +28,7 @@ export class ImapService {
             return false
         }
     }
+    @LoggerMethod()
     async openInbox(): Promise<any[]> {
         this.logger.debug('Called every 1 minutes');
         users = [];
